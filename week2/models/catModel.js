@@ -17,7 +17,14 @@ const cats = [
     filename: 'http://placekitten.com/400/302',
   },
 ];
+const getCat = (catId) => {
+  for (let cat of cats) {
+    if (cat.id === catId) {
+      return cat;
+    }
+  }
+}
 
 module.exports = {
-  cats,
+  cats,getCat,
 };
