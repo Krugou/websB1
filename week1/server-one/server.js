@@ -7,6 +7,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 app.get('/catinfo', (req, res) => {
+  
   const cat = {
     name: 'Frank',
     birthdate: '2010-12-25',

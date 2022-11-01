@@ -14,6 +14,17 @@ const users = [
   },
 ];
 
+const getuser = (userId) => {
+  return users
+    .filter((user) => {
+      if (user.id === userId) {
+        return user;
+      }
+    })
+    .pop();
+};
+
 module.exports = {
   users,
+  getuser,
 };
