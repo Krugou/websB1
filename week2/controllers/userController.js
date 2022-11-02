@@ -9,4 +9,13 @@ const user_get = (req, res) => {
   res.json(user);
 };
 
-module.exports = { user_list_get, user_get };
+const user_post = (req, res) => {
+  console.log('user_post', req.body);
+  res.send('Add user route');
+};
+
+module.exports = {
+  user_list_get,
+  user_get,
+  user_post,
+};
