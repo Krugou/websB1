@@ -16,13 +16,23 @@ const cats = [
     owner: '2',
     filename: 'http://placekitten.com/400/302',
   },
+  {
+    id: '3',
+    name: 'James 2nd',
+    birthdate: '2016-1-25',
+    weight: '5',
+    owner: '2',
+    filename: 'http://placekitten.com/400/301',
+  },
 ];
 const getCat = (catId) => {
-  return cats.filter((cat) => {
-    if (cat.id === catId) {
-      return cat;
-    }
-  }).pop();
+  return cats
+    .filter((cat) => {
+      if (cat.id === catId) {
+        return cat;
+      }
+    })
+    .pop();
 };
 
 module.exports = {
