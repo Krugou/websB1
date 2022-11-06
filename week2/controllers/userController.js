@@ -6,16 +6,31 @@ const user_list_get = async (req, res) => {
   res.json(await getAllUsers());
 };
 
+
 const user_get = async (req, res) => {
   const user = await getUser(req.params.id);
-  res.json(user.pop());
+  delete user.password;
+  if (user.length > 0) {
+    console.log('käyttäjä', user);
+    res.json(user.pop());
+  } else {
+    res.send('errorr');
+  }
 };
 
-const user_post = (req, res) => {
-  console.log('user_post', req.body);
-  res.send('Add user route');
+const user_post = async (req, res) => {
+  console.log('user post', req.body);
+  const data = [req.body.name, req.body.email, req.body.passwd];
+  const result = await addUser(data);
+  if (result.affectedRows > 0) {
+    res.json({
+      message: 'user added',
+      user_id: result.insertId,
+    });
+  } else {
+    res.send('errorr');
+  }
 };
-
 module.exports = {
   user_list_get,
   user_get,
