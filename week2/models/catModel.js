@@ -1,41 +1,50 @@
 'use strict';
-const cats = [
-  {
-    id: '1',
-    name: 'Frank',
-    birthdate: '2010-10-30',
-    weight: '5',
-    owner: '1',
-    filename: 'http://placekitten.com/400/300',
-  },
-  {
-    id: '2',
-    name: 'James',
-    birthdate: '2015-12-25',
-    weight: '11',
-    owner: '2',
-    filename: 'http://placekitten.com/400/302',
-  },
-  {
-    id: '3',
-    name: 'James 2nd',
-    birthdate: '2016-1-25',
-    weight: '5',
-    owner: '2',
-    filename: 'http://placekitten.com/400/301',
-  },
-];
-const getCat = (catId) => {
-  return cats
-    .filter((cat) => {
-      if (cat.id === catId) {
-        return cat;
-      }
-    })
-    .pop();
+const pool = require('../database/db');
+const promisePool = pool.promise();
+
+const getAllCats = async () => {
+  try {
+    const [rows] =
+      await promisePool.execute(`SELECT cat_id, wop_cat.name, weight, owner, filename, birthdate, wop_user.name as ownername 
+                                              FROM wop_cat 
+                                              JOIN wop_user 
+                                              ON wop_user.user_id = wop_cat.owner;`);
+    return rows;
+  } catch (e) {
+    console.error('error', e.message);
+  }
+};
+
+const getCat = async (catId) => {
+  try {
+    const [rows] = await promisePool.execute(
+      `SELECT cat_id, wop_cat.name, weight, owner, filename, birthdate, wop_user.name as ownername 
+                                              FROM wop_cat 
+                                              JOIN wop_user 
+                                              ON wop_user.user_id = wop_cat.owner 
+                                              WHERE cat_id = ?;`,
+      [catId]
+    );
+    return rows;
+  } catch (e) {
+    console.error('error', e.message);
+  }
+};
+
+const addCat = async (data) => {
+  try {
+    const [rows] = await promisePool.execute(
+      `INSERT INTO wop_cat (name, birthdate, weight, owner, filename) VALUES (?, ?, ?, ?, ?);`,
+      data
+    );
+    return rows;
+  } catch (e) {
+    console.error('error', e.message);
+  }
 };
 
 module.exports = {
-  cats,
+  getAllCats,
   getCat,
+  addCat,
 };
