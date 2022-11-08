@@ -39,11 +39,12 @@ const cat_post = async (req, res) => {
       cat_id: result.insertId,
     });
   } else {
-    res.send('errorr');
+    res.send('virhe');
   }
 };
+
 const cat_put = async (req, res) => {
-  console.log('cat put', req.body);
+  console.log('cat_put', req.body);
   const data = [
     req.body.name,
     req.body.birthdate,
@@ -51,25 +52,25 @@ const cat_put = async (req, res) => {
     req.body.owner,
     req.body.id,
   ];
+
   const result = await updateCat(data);
   if (result.affectedRows > 0) {
     res.json({
-      message: 'cat updated',
-      cat_id: result.insertId,
+      message: 'cat modified',
     });
   } else {
-    res.send('error');
+    res.send('virhe');
   }
 };
+
 const cat_delete = async (req, res) => {
-  console.log('cat delete', req.params.id);
   const result = await deleteCat(req.params.id);
   if (result.affectedRows > 0) {
     res.json({
       message: 'cat deleted',
     });
   } else {
-    res.send('errorr');
+    res.send('virhe');
   }
 };
 

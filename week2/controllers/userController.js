@@ -1,26 +1,22 @@
 'use strict';
 // userController
-const { getUser, getAllUsers } = require('../models/userModel');
+const { getUser, getAllUsers, addUser } = require('../models/userModel');
+const { addCat } = require('../models/catModel');
 
 const user_list_get = async (req, res) => {
   res.json(await getAllUsers());
 };
 
-
 const user_get = async (req, res) => {
   const user = await getUser(req.params.id);
-  delete user.password;
-  if (user.length > 0) {
-    console.log('käyttäjä', user);
-    res.json(user.pop());
-  } else {
-    res.send('errorr');
-  }
+  res.json(user.pop());
 };
 
 const user_post = async (req, res) => {
-  console.log('user post', req.body);
+  console.log('user_post', req.body);
+
   const data = [req.body.name, req.body.email, req.body.passwd];
+
   const result = await addUser(data);
   if (result.affectedRows > 0) {
     res.json({
@@ -28,9 +24,10 @@ const user_post = async (req, res) => {
       user_id: result.insertId,
     });
   } else {
-    res.send('errorr');
+    res.send('virhe');
   }
 };
+
 module.exports = {
   user_list_get,
   user_get,
