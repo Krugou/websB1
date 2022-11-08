@@ -1,5 +1,6 @@
 'use strict';
 const pool = require('../database/db');
+const { httpError } = require('../utils/errors');
 const promisePool = pool.promise();
 
 const getAllUsers = async () => {
@@ -10,10 +11,11 @@ const getAllUsers = async () => {
     return rows;
   } catch (e) {
     console.error('error', e.message);
+    next(httpError('Database error', 500));
   }
 };
 
-const getUser = async (userId) => {
+const getUser = async (userId, next) => {
   try {
     const [rows] = await promisePool.execute(
       `SELECT user_id, name, email, role FROM wop_user
@@ -23,10 +25,11 @@ const getUser = async (userId) => {
     return rows;
   } catch (e) {
     console.error('error', e.message);
+    next(httpError('Database error', 500));
   }
 };
 
-const addUser = async (data) => {
+const addUser = async (data, next) => {
   try {
     const [rows] = await promisePool.execute(
       `INSERT INTO wop_user (name, email, password) VALUES (?, ?, ?);`,
@@ -35,6 +38,7 @@ const addUser = async (data) => {
     return rows;
   } catch (e) {
     console.error('error', e.message);
+    next(httpError('Database error', 500));
   }
 };
 
