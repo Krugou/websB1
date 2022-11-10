@@ -12,7 +12,7 @@ router.get('/', user_list_get);
 
 router.get('/:id', user_get);
 
-router.post('/',body('name').isLength({min: 3}), user_post);
+router.post('/',body('name').isLength({min: 3}),body('date').isDate,body('number').isNumeric, user_post);
 
 router.put('/', (req, res) => {
   res.send('From this endpoint you can edit users.');
