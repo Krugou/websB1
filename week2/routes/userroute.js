@@ -17,7 +17,7 @@ router
   .post(
     body('name').isLength({ min: 3 }).escape(),
     body('email').isEmail(),
-    body('passwd').matches('/(?=.*[\p{Lu}]).{8,}/u'),
+    body('passwd').matches(/(?=.*[\p{Lu}]).{8,}/u),
     user_post
   )
   .put(user_put);
