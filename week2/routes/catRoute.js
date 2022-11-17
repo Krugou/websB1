@@ -22,15 +22,18 @@ router
     body('weight').isNumeric(),
 
     cat_post
-  )
-  .put(
+  );
+
+router
+  .route('/:id') 
+  .get(cat_get) // get cat by id
+  .delete(cat_delete) // delete cat by id
+  .put( // update cat by id
     body('name').isLength({ min: 1 }).escape(),
     body('birthdate').isDate(),
     body('weight').isNumeric(),
     body('id').isNumeric(),
     cat_put
   );
-
-router.route('/:id').get(cat_get).delete(cat_delete);
 
 module.exports = router;
