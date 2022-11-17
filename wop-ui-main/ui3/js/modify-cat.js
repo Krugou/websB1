@@ -34,7 +34,7 @@ const getCat = async (id) => {
   inputs[0].value = cat.name;
   inputs[1].value = cat.birthdate;
   inputs[2].value = cat.weight;
-  inputs[3].value = cat.cat_id;
+
   if (user.role === 0) modForm.querySelector('select').value = cat.owner;
 };
 
