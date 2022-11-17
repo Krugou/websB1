@@ -20,14 +20,14 @@ router
     body('name').isLength({ min: 1 }).escape(),
     body('birthdate').isDate(),
     body('weight').isNumeric(),
-    body('id').isNumeric(),
+
     cat_post
   )
   .put(
     body('name').isLength({ min: 1 }).escape(),
     body('birthdate').isDate(),
     body('weight').isNumeric(),
-    body('owner').isNumeric(),
+    body('id').isNumeric(),
     cat_put
   );
 
