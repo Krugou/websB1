@@ -48,15 +48,28 @@ const cat_post = async (req, res, next) => {
 const cat_put = async (req, res, next) => {
   try {
     console.log('cat_put', req.body);
-    const data = [
-      req.body.name,
-      req.body.birthdate,
-      req.body.weight,
-      req.user.user_id,
-      req.body.id,
-      req.user.user_id,
-    ];
 
+    let data = [];
+
+    if (req.user.role === 0) {
+      data = [
+        req.body.name,
+        req.body.birthdate,
+        req.body.weight,
+        req.user.owner,
+        req.body.id,
+        
+      ];
+    } else {
+      data = [
+        req.body.name,
+        req.body.birthdate,
+        req.body.weight,
+        req.user.user_id,
+        req.body.id,
+        req.user.user_id,
+      ];
+    }
     const result = await updateCat(data, next);
     if (result.affectedRows > 0) {
       res.json({
