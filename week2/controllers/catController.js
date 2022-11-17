@@ -30,7 +30,7 @@ const cat_post = async (req, res, next) => {
     req.body.name,
     req.body.birthdate,
     req.body.weight,
-    req.body.owner,
+    req.user.user_id,
     req.file.filename,
   ];
 
