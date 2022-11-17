@@ -13,7 +13,7 @@ const getAllCats = async (next) => {
     return rows;
   } catch (e) {
     console.error('error', e.message);
-    next(httpError('Database error', 500))
+    next(httpError('Database error', 500));
   }
 };
 
@@ -30,7 +30,7 @@ const getCat = async (catId, next) => {
     return rows;
   } catch (e) {
     console.error('error', e.message);
-    next(httpError('Database error', 500))
+    next(httpError('Database error', 500));
   }
 };
 
@@ -47,10 +47,10 @@ const addCat = async (data, next) => {
   }
 };
 
-const updateCat = async (data,next) => {
+const updateCat = async (data, next) => {
   try {
     const [rows] = await promisePool.execute(
-      `UPDATE wop_cat set name = ?, birthdate = ?, weight = ?, owner = ? WHERE cat_id = ?;`,
+      `UPDATE wop_cat set name = ?, birthdate = ?, weight = ?, owner = ? WHERE cat_id = ? AND owner = ?;`,
       data
     );
     return rows;
@@ -60,12 +60,18 @@ const updateCat = async (data,next) => {
   }
 };
 
-const deleteCat = async (catId,next) => {
+const deleteCat = async (catId, user, next) => {
   try {
-    const [rows] = await promisePool.execute(
-      `DELETE FROM wop_cat where cat_id = ?;`,
-    [catId]
-    );
+    let sql = 'DELETE FROM wop_cat where cat_id = ?';
+    const params = [];
+    if (user.role === 0) {
+      sql += ';';
+      params.push(catId)
+    } else {
+      sql += ' AND owner = ?';
+      params.push(catId, user.user_id);
+    }
+    const [rows] = await promisePool.execute(sql,params);
     return rows;
   } catch (e) {
     console.error('error', e.message);
