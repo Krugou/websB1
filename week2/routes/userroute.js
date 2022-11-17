@@ -23,8 +23,7 @@ router
     user_post
   )
   .put(user_put);
-
-router.route('/:id').get(user_get).delete(user_delete);
 router.get('/token', check_Token);
+router.route('/:id').get(user_get).delete(user_delete);
 
 module.exports = router;
