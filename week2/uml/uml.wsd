@@ -1,0 +1,5 @@
+@startuml nodeserveri
+käyttäjä -> palvelin: HTTP GET /nodeserveri
+palvelin -> tietokanta : SELECT * FROM nodeserveri
+tietokanta -> palvelin : tietoa
+@enduml
