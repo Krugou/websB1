@@ -52,7 +52,7 @@ const cat_put = async (req, res, next) => {
       req.body.name,
       req.body.birthdate,
       req.body.weight,
-      req.body.owner,
+      req.user.user_id,
       req.body.id,
       req.user.user_id,
     ];
@@ -72,7 +72,7 @@ const cat_put = async (req, res, next) => {
 };
 
 const cat_delete = async (req, res, next) => {
-  const result = await deleteCat(req.params.id, next);
+  const result = await deleteCat(req.params.id, user.user_id, next);
   if (result.affectedRows > 0) {
     res.json({
       message: 'cat deleted',
