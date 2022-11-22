@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const { getUserLogin } = require('../models/userModel');
@@ -15,7 +16,7 @@ passport.use(
       if (user === undefined) {
         return done(null, false, { message: 'Incorrect email.' });
       }
-      if (user.password !== password) {
+      if (!bcrypt.compareSync(password, user.password)) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       delete user.password;
