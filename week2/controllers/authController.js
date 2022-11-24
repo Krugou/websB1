@@ -26,6 +26,7 @@ const login = (req, res, next) => {
     });
   })(req, res, next);
 };
+
 const user_post = async (req, res, next) => {
   try {
     // Extract the validation errors from a request.
