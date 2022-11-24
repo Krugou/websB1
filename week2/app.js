@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config
 const express = require('express');
 const cors = require('cors');
 const authRoute = require('./routes/authRoute');
