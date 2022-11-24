@@ -32,11 +32,15 @@ const user_get = async (req, res, next) => {
   }
 };
 
-
-
 const user_put = async (req, res, next) => {
   try {
-    const data = [req.body.name, req.body.email, req.body.passwd, req.body.id];
+
+    const data = [
+      req.body.name,
+      req.body.email,
+      req.body.passwd,
+      req.body.id,
+    ];
 
     const result = await updateUser(data, next);
     if (result.affectedRows < 1) {
@@ -69,18 +73,19 @@ const user_delete = async (req, res, next) => {
     next(httpError('Internal server error', 500));
   }
 };
-const check_Token = (req, res, next) => {
+
+const check_token = (req, res, next) => {
   if (!req.user) {
-    next(new Error('token not valid'));
+    next(httpError('token not valid', 403));
   } else {
     res.json({ user: req.user });
   }
 };
+
 module.exports = {
   user_list_get,
   user_get,
-  
   user_put,
   user_delete,
-  check_Token,
+  check_token,
 };
