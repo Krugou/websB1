@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoute = require('./routes/authRoute');
@@ -10,11 +10,21 @@ const passport = require('./utils/pass');
 const app = express();
 const port = 3000;
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+if (process.env.NODE_ENV === 'production') {
+  require('./utils/production')(app, process.env.HTTP_PORT || 3000, process.env.HTTPS_PORT || 8000);
+} else {
+  require('./utils/localhost')(app, process.env.HTTP_PORT || 3000);
+}
+
 app.use(cors());
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
 app.use(passport.initialize());
+
 app.use(express.static('uploads'));
+app.use('/thumbnails', express.static('thumbnails'));
 
 app.use('/auth', authRoute);
 app.use('/cat', passport.authenticate('jwt', { session: false }), catRoute);
@@ -26,27 +36,6 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  res
-    .status(err.status || 500)
-    .json({ message: err.message || 'Internal server error' });
+  res.status(err.status || 500).
+    json({ message: err.message || 'Internal server error' });
 });
-
-app.listen(port, () => console.log(`käynnistyi portilla ${port}!`
-));
-
-console.log('              __ ');
-console.log('             .¨  ¨. ');
-console.log('             :      :');
-console.log('             | _  _ |');
-console.log('          .-.|(o)(o)|.-.        _._          _._');
-console.log('         ( ( | .--. | ) )     .¨,_ ¨.      .¨ _,¨.');
-console.log('          ¨-/ (    ) -¨     / /¨ `  __ / /¨ `  ');
-console.log('           /   ¨--¨        / /     .¨  ¨./       ');
-console.log('            `"===="` /     `-`     : _  _ :      `-`');
-console.log('            `      /¨              |(o)(o)|');
-console.log('              `  /¨                |      |');
-console.log('              /`-.-`_             /         ');
-console.log('        _..:;._/V_./:;.._       /   .--.    ');
-console.log('      .¨/;:;:; /^ /:;:;:¨.     |  (    )  | ');
-console.log('     / /;:;:;:;| |/:;:;:;:     _  ¨--¨  /__');
-console.log('    / /;:;:;:;:;_/:;:;:;:;:  .¨  ¨-.__.-¨   `-.');
