@@ -6,14 +6,14 @@ module.exports = (app, port, httpsPort) => {
     app.enable('trust proxy');
 
 
-    const sslkey = fs.readFileSync('/etc/pki/tls/private/ca.key');
+    const sslkey  = fs.readFileSync('/etc/pki/tls/private/ca.key');
     const sslcert = fs.readFileSync('/etc/pki/tls/certs/ca.crt');
     const options = {
         key: sslkey,
         cert: sslcert
     };
 
-    app.use((req, res, next) => {
+    app.use ((req, res, next) => {
         if (req.secure) {
             // request was via https, so do no special handling
             next();
@@ -30,22 +30,6 @@ module.exports = (app, port, httpsPort) => {
 
     app.listen(port, () => console.log(`Example app listening on port ${port}!`));
     https.createServer(options, app).listen(8000);
-    console.log('              __ ');
-    console.log('             .¨  ¨. ');
-    console.log('             :      :');
-    console.log('             | _  _ |');
-    console.log('          .-.|(o)(o)|.-.        _._          _._');
-    console.log('         ( ( | .--. | ) )     .¨,_ ¨.      .¨ _,¨.');
-    console.log('          ¨-/ (    ) -¨     / /¨ `  __ / /¨ `  ');
-    console.log('           /   ¨--¨        / /     .¨  ¨./       ');
-    console.log('            `"===="` /     `-`     : _  _ :      `-`');
-    console.log('            `      /¨              |(o)(o)|');
-    console.log('              `  /¨                |      |');
-    console.log('              /`-.-`_             /         ');
-    console.log('        _..:;._/V_./:;.._       /   .--.    ');
-    console.log('      .¨/;:;:; /^ /:;:;:¨.     |  (    )  | ');
-    console.log('     / /;:;:;:;| |/:;:;:;:     _  ¨--¨  /__');
-    console.log('    / /;:;:;:;:;_/:;:;:;:;:  .¨  ¨-.__.-¨   `-.');
 
 
 };
