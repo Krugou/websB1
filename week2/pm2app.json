@@ -1,0 +1,14 @@
+{
+  "name": "sovellus",
+  "script": "/home/Krugou/websB1/week2/app.js",
+  "watch": ["/home/Krugou/websB1/week2/"],
+  "ignore_watch": [
+    "/home/Krugou/websB1/week2/node_modules",
+    "/home/Krugou/websB1/week2/uploads",
+    "/home/Krugou/websB1/week2/thumbnails",
+    "/home/Krugou/websB1/week2/views",
+    "/home/Krugou/websB1/week2/package-lock.json",
+    "/home/Krugou/websB1/week2/mariadbstatus.txt",
+    "/home/Krugou/websB1/week2/apachestatus.txt"
+  ]
+}
