@@ -6,9 +6,11 @@ const getCoordinates = (imgFile) => { // imgFile = full path to uploaded image
         try {
             const coordinates = [];
             // TODO: Use node-exif to get longitude and latitude from imgFile
+
             new ExifImage({ image: imgFile }, function (error, exifData) {
+
                 if (error) {
-                    reject(error)
+                    reject(error);
                 } else {
                     // console.log(exifData); // Do something with your data!
                     coordinates.push(gpsToDecimal(exifData.gps.GPSLongitude, exifData.gps.GPSLongitudeRef));
@@ -17,7 +19,6 @@ const getCoordinates = (imgFile) => { // imgFile = full path to uploaded image
                     resolve(coordinates);
                 }
             });
-
         }
         catch (error) {
             reject(error);
@@ -29,9 +30,13 @@ const getCoordinates = (imgFile) => { // imgFile = full path to uploaded image
 // for longitude, send exifData.gps.GPSLongitude, exifData.gps.GPSLongitudeRef
 // for latitude, send exifData.gps.GPSLatitude, exifData.gps.GPSLatitudeRef
 const gpsToDecimal = (gpsData, hem) => {
-    let d = parseFloat(gpsData[0]) + parseFloat(gpsData[1] / 60) +
-        parseFloat(gpsData[2] / 3600);
-    return (hem === 'S' || hem === 'W') ? d *= -1 : d;
+    try {
+        let d = parseFloat(gpsData[0]) + parseFloat(gpsData[1] / 60) +
+            parseFloat(gpsData[2] / 3600);
+        return (hem === 'S' || hem === 'W') ? d *= -1 : d;
+    }
+    catch (error) {
+    }
 };
 
 module.exports = {
