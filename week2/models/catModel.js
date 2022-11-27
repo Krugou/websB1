@@ -1,6 +1,6 @@
 'use strict';
 const pool = require('../database/db');
-const { httpError } = require('../utils/errors');
+const {httpError} = require('../utils/errors');
 const promisePool = pool.promise();
 
 const getAllCats = async (next) => {
@@ -33,7 +33,7 @@ const getCat = async (catId, next) => {
 const addCat = async (data, next) => {
   try {
     const [rows] = await promisePool.execute(`INSERT INTO wop_cat (name, birthdate, weight, owner, filename, coords) VALUES (?, ?, ?, ?, ?, ?);`,
-      data);
+        data);
     return rows;
   } catch (e) {
     console.error('addCat', e.message);
@@ -43,13 +43,13 @@ const addCat = async (data, next) => {
 
 const updateCat = async (data, user, next) => {
   try {
-    if (user.role === 0) {
+    if(user.role === 0){
       const [rows] = await promisePool.execute(`UPDATE wop_cat SET name = ?, birthdate = ?, weight = ?, owner = ? WHERE cat_id = ?;`,
-        data);
+          data);
       return rows;
     } else {
       const [rows] = await promisePool.execute(`UPDATE wop_cat SET name = ?, birthdate = ?, weight = ? WHERE cat_id = ? AND owner = ?;`,
-        data);
+          data);
       return rows;
     }
 
