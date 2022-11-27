@@ -32,6 +32,7 @@ const user_get = async (req, res, next) => {
   }
 };
 
+
 const user_put = async (req, res, next) => {
   try {
 
@@ -73,7 +74,6 @@ const user_delete = async (req, res, next) => {
     next(httpError('Internal server error', 500));
   }
 };
-
 const check_token = (req, res, next) => {
   if (!req.user) {
     next(httpError('token not valid', 403));
