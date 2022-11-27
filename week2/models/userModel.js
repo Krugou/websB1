@@ -1,7 +1,7 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
-const { httpError } = require('../utils/errors');
+const {httpError} = require('../utils/errors');
 
 const getAllUsers = async (next) => {
   try {
@@ -40,8 +40,8 @@ const getUserLogin = async (params, next) => {
   try {
     console.log(params);
     const [rows] = await promisePool.execute(
-      'SELECT * FROM wop_user WHERE email = ?;',
-      params);
+        'SELECT * FROM wop_user WHERE email = ?;',
+        params);
     return rows;
   } catch (e) {
     console.error('getUserLogin', e.message);
