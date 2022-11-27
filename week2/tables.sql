@@ -1,4 +1,4 @@
-CREATE TABLE `wop_cat` (
+CREATE TABLE if not exists `wop_cat` (
   `cat_id` int(11) NOT NULL,
   `name` text NOT NULL,
   `weight` float NOT NULL,
@@ -12,7 +12,7 @@ INSERT INTO `wop_cat` (`cat_id`, `name`, `weight`, `owner`, `filename`, `birthda
 (2, 'Jessie', 3.5, 3, 'http://placekitten.com/400/302', '2020-11-03'),
 (3, 'Garfield', 11, 2, 'http://placekitten.com/400/304', '1978-02-12');
 
-CREATE TABLE `wop_user` (
+CREATE TABLE if not exists `wop_user` (
   `user_id` int(11) NOT NULL,
   `name` text NOT NULL,
   `email` text NOT NULL,
