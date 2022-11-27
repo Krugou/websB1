@@ -11,6 +11,7 @@ const login = (req, res, next) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
     console.log('info: ', info);
     console.log('err1: ', err);
+
     if (err || !user) {
       next(httpError('Kirjautumiserhe', 403));
       return;
@@ -18,15 +19,14 @@ const login = (req, res, next) => {
     req.login(user, { session: false }, (err) => {
       if (err) {
         console.log('err2: ', err);
-        next(httpError('Kirjautmiserhe 2', 403));
+        next(httpError('Kirjautumiserhe 2', 403));
         return;
       }
-      const token = jwt.sign(user, 'tw34y5ktugijl');
+      const token = jwt.sign(user, 'dihfgadoisdwdf2');
       return res.json({ user, token });
     });
   })(req, res, next);
 };
-
 const user_post = async (req, res, next) => {
   try {
     // Extract the validation errors from a request.
