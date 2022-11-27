@@ -1,30 +1,30 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const { httpError } = require('../utils/errors');
-const { validationResult } = require('express-validator');
-const { addUser } = require('../models/userModel');
+const {httpError} = require('../utils/errors');
+const {validationResult} = require('express-validator');
+const {addUser} = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 
 const login = (req, res, next) => {
   // TODO: add passport authenticate
-  passport.authenticate('local', { session: false }, (err, user, info) => {
+  passport.authenticate('local', {session: false}, (err, user, info) => {
     console.log('info: ', info);
     console.log('err1: ', err);
 
-    if (err || !user) {
-      next(httpError('Kirjautumiserhe', 403));
+    if (err || !user){
+    next(httpError('Kirjautumiserhe', 403));
+    return;
+  }
+  req.login(user, {session: false}, (err) => {
+    if (err){
+      console.log('err2: ', err);
+      next(httpError('Kirjautumiserhe 2', 403));
       return;
     }
-    req.login(user, { session: false }, (err) => {
-      if (err) {
-        console.log('err2: ', err);
-        next(httpError('Kirjautumiserhe 2', 403));
-        return;
-      }
-      const token = jwt.sign(user, 'dihfgadoisdwdf2');
-      return res.json({ user, token });
-    });
+    const token = jwt.sign(user, 'dihfgadoisdwdf2');
+    return res.json({user, token});
+  });
   })(req, res, next);
 };
 const user_post = async (req, res, next) => {
